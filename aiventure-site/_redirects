@@ -1,0 +1,41 @@
+# Aiventure - Cloudflare Pages Redirects
+# Documentation: https://developers.cloudflare.com/pages/configuration/redirects/
+
+# Redirect non-www to www (301 permanent)
+https://aiventure.me/* https://www.aiventure.me/:splat 301
+
+# Short URLs to full paths
+/tools /pages/all-tools.html 301
+/blog /pages/blog.html 301
+/about /pages/about.html 301
+/contact /pages/contact.html 301
+/submit /pages/submit.html 301
+/advertise /pages/advertise.html 301
+/categories /pages/categories.html 301
+/guides /pages/guides.html 301
+/newsletter /pages/newsletter.html 301
+/new /pages/new-additions.html 301
+/top /pages/top-rated.html 301
+/api-docs /pages/api.html 301
+
+# Category shortcuts
+/trip-planning /pages/categories.html#trip-planning 301
+/local-guides /pages/categories.html#local-guides 301
+/flights /pages/categories.html#flights 301
+/road-trip /pages/categories.html#road-trip 301
+/luxury /pages/categories.html#luxury 301
+/group /pages/categories.html#group 301
+/adventure /pages/categories.html#adventure 301
+
+# Guide shortcuts
+/guide/ai-trip-planner /guides/how-to-use-ai-trip-planner.html 301
+/guide/budget /guides/budget-travel-with-ai.html 301
+/guide/comparison /guides/ai-vs-traditional-travel-agents.html 301
+
+# Legacy/old URLs (if migrating from another platform)
+/directory /pages/all-tools.html 301
+/listings /pages/all-tools.html 301
+/resources /pages/guides.html 301
+
+# Remove trailing slashes
+/:path/ /:path 301

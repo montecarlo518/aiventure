@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter — Aiventure</title>
+    <meta name="description" content="Subscribe to the Aiventure newsletter for weekly AI travel tool updates and tips.">
+    <link rel="canonical" href="https://www.aiventure.me/pages/newsletter.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+    <div class="bg-decoration"><div class="bg-circle bg-circle-1"></div><div class="bg-circle bg-circle-2"></div><div class="bg-grid"></div></div>
+    <nav><a href="/" class="logo"><div class="logo-icon">✈</div>Aiventure</a><ul class="nav-links"><li><a href="/#featured">Featured</a></li><li><a href="/pages/categories.html">Categories</a></li><li><a href="/pages/blog.html">Blog</a></li><li><a href="/pages/about.html">About</a></li></ul><a href="/pages/submit.html" class="submit-btn">Submit Tool</a></nav>
+
+    <main>
+        <section style="padding: 120px 60px 80px; text-align: center; max-width: 700px; margin: 0 auto;">
+            <div style="font-size: 4rem; margin-bottom: 24px;">📬</div>
+            <h1 style="font-family: 'Fraunces', serif; font-size: 3rem; margin-bottom: 20px;">Stay Ahead of the Curve</h1>
+            <p style="font-size: 1.2rem; color: var(--ink-light); margin-bottom: 40px;">Join 5,000+ travelers getting weekly updates on the best AI travel tools, tips, and exclusive deals.</p>
+            
+            <form id="newsletterForm" style="background: var(--white); padding: 40px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.08);">
+                <div class="form-group" style="text-align: left;">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" name="email" required placeholder="your@email.com" style="font-size: 1.1rem; padding: 18px 24px;">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1rem;">Subscribe to Newsletter</button>
+                <p style="font-size: 0.85rem; color: var(--mist); margin-top: 16px;">No spam, unsubscribe anytime. We respect your inbox.</p>
+            </form>
+            <div id="formMessage" style="margin-top: 20px; display: none; padding: 16px; border-radius: 12px;"></div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title" style="text-align: center;"><span class="small">What You'll Get</span>Newsletter Benefits</h2>
+            <div class="grid-3">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🆕</div>
+                    <h3 style="font-family: 'Fraunces', serif; font-size: 1.1rem; margin-bottom: 8px;">New Tool Alerts</h3>
+                    <p style="color: var(--ink-light); font-size: 0.9rem;">Be the first to know when we add new AI travel tools to our directory.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">💡</div>
+                    <h3 style="font-family: 'Fraunces', serif; font-size: 1.1rem; margin-bottom: 8px;">Pro Tips</h3>
+                    <p style="color: var(--ink-light); font-size: 0.9rem;">Expert advice on getting the most out of AI travel planning.</p>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">🎁</div>
+                    <h3 style="font-family: 'Fraunces', serif; font-size: 1.1rem; margin-bottom: 8px;">Exclusive Deals</h3>
+                    <p style="color: var(--ink-light); font-size: 0.9rem;">Special discounts and offers from our partner tools.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content"><div class="footer-brand"><div class="footer-logo">Aiventure</div><p class="footer-desc">The most comprehensive directory of AI-powered travel tools.</p></div>
+        <div class="footer-links"><div class="footer-column"><h4>Directory</h4><ul><li><a href="/pages/all-tools.html">All Tools</a></li><li><a href="/pages/categories.html">Categories</a></li></ul></div><div class="footer-column"><h4>Resources</h4><ul><li><a href="/pages/blog.html">Blog</a></li><li><a href="/pages/guides.html">Guides</a></li></ul></div><div class="footer-column"><h4>Company</h4><ul><li><a href="/pages/about.html">About</a></li><li><a href="/pages/contact.html">Contact</a></li></ul></div></div></div>
+        <div class="footer-bottom"><p>© 2026 Aiventure. All rights reserved.</p></div>
+    </footer>
+
+    <script>
+        document.getElementById('newsletterForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formMessage = document.getElementById('formMessage');
+            const btn = form.querySelector('button');
+            btn.disabled = true; btn.textContent = 'Subscribing...';
+            try {
+                const response = await fetch('/api/newsletter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: form.email.value })
+                });
+                const data = await response.json();
+                formMessage.style.display = 'block';
+                if (data.success) {
+                    formMessage.style.background = '#D1FAE5'; formMessage.style.color = '#065F46';
+                    formMessage.textContent = '✓ You\'re subscribed! Check your inbox for a welcome email.';
+                    form.reset();
+                } else { throw new Error(data.error); }
+            } catch (err) {
+                formMessage.style.display = 'block'; formMessage.style.background = '#FEE2E2'; formMessage.style.color = '#991B1B';
+                formMessage.textContent = '✕ ' + (err.message || 'Something went wrong.');
+            }
+            btn.disabled = false; btn.textContent = 'Subscribe to Newsletter';
+        });
+    </script>
+</body>
+</html>

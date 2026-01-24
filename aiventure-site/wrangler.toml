@@ -1,0 +1,88 @@
+# Aiventure - Cloudflare Wrangler Configuration
+# Documentation: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+name = "aiventure"
+main = "functions/_worker.js"
+compatibility_date = "2024-01-01"
+
+# Account and zone (fill in your own)
+# account_id = "your-account-id"
+# zone_id = "your-zone-id"
+
+# Environment variables
+[vars]
+SITE_NAME = "Aiventure"
+SITE_URL = "https://www.aiventure.me"
+ENVIRONMENT = "production"
+
+# Development settings
+[dev]
+port = 8787
+local_protocol = "http"
+
+# Production environment
+[env.production]
+name = "aiventure-production"
+routes = [
+  { pattern = "www.aiventure.me/*", zone_name = "aiventure.me" },
+  { pattern = "aiventure.me/*", zone_name = "aiventure.me" }
+]
+
+[env.production.vars]
+ENVIRONMENT = "production"
+
+# Staging environment
+[env.staging]
+name = "aiventure-staging"
+routes = [
+  { pattern = "staging.aiventure.me/*", zone_name = "aiventure.me" }
+]
+
+[env.staging.vars]
+ENVIRONMENT = "staging"
+
+# KV Namespaces (create these in Cloudflare dashboard)
+# Uncomment and add your namespace IDs after creating them
+
+# [[kv_namespaces]]
+# binding = "NEWSLETTER_KV"
+# id = "your-newsletter-kv-id"
+# preview_id = "your-newsletter-kv-preview-id"
+
+# [[kv_namespaces]]
+# binding = "CACHE_KV"
+# id = "your-cache-kv-id"
+# preview_id = "your-cache-kv-preview-id"
+
+# D1 Database (for contact forms, tool submissions)
+# Uncomment and add your database ID after creating it
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "aiventure-db"
+# database_id = "your-database-id"
+
+# R2 Storage (for images, assets)
+# Uncomment if using R2 for asset storage
+
+# [[r2_buckets]]
+# binding = "ASSETS_BUCKET"
+# bucket_name = "aiventure-assets"
+
+# Scheduled tasks (cron triggers)
+[triggers]
+crons = [
+  "0 0 * * *",    # Daily at midnight UTC - refresh data
+  "0 */6 * * *"  # Every 6 hours - update ratings
+]
+
+# Build configuration
+[build]
+command = ""  # No build step needed for static site
+
+# Site configuration (for Pages)
+[site]
+bucket = "./"  # Root directory contains the site
+
+# Custom domains
+# Configure these in Cloudflare dashboard under Pages > Custom domains
