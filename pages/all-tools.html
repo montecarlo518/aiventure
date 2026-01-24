@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All AI Travel Tools — Aiventure</title>
+    <meta name="description" content="Browse our complete directory of AI-powered travel planning tools. Filter by category, pricing, and features.">
+    <link rel="canonical" href="https://www.aiventure.me/pages/all-tools.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+    <div class="bg-decoration">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-grid"></div>
+    </div>
+
+    <nav>
+        <a href="/" class="logo">
+            <div class="logo-icon">✈</div>
+            Aiventure
+        </a>
+        <ul class="nav-links">
+            <li><a href="/#featured">Featured</a></li>
+            <li><a href="/pages/categories.html">Categories</a></li>
+            <li><a href="/pages/blog.html">Blog</a></li>
+            <li><a href="/pages/about.html">About</a></li>
+        </ul>
+        <a href="/pages/submit.html" class="submit-btn">Submit Tool</a>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span>→</span>
+                <span class="current">All Tools</span>
+            </div>
+            <h1>All AI Travel Tools</h1>
+            <p>Browse our complete directory of <span id="toolCount">17</span> AI-powered travel planning tools.</p>
+        </div>
+
+        <!-- Filters -->
+        <section class="section" style="padding-top: 0;">
+            <div style="background: var(--white); border-radius: 20px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
+                <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-end;">
+                    <div style="flex: 2; min-width: 250px;">
+                        <label class="form-label">Search</label>
+                        <input type="text" class="form-input" id="searchInput" placeholder="Search AI tools...">
+                    </div>
+                    <div style="flex: 1; min-width: 180px;">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="categoryFilter">
+                            <option value="">All Categories</option>
+                            <option value="trip-planning">Trip Planning</option>
+                            <option value="local-guides">Local Guides</option>
+                            <option value="flights">Flights & Hotels</option>
+                            <option value="road-trip">Road Trip</option>
+                            <option value="luxury">Luxury Travel</option>
+                            <option value="group">Group Travel</option>
+                            <option value="adventure">Adventure</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 180px;">
+                        <label class="form-label">Pricing</label>
+                        <select class="form-select" id="pricingFilter">
+                            <option value="">All Pricing</option>
+                            <option value="free">Free</option>
+                            <option value="freemium">Freemium</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 180px;">
+                        <label class="form-label">Sort By</label>
+                        <select class="form-select" id="sortFilter">
+                            <option value="popular">Most Popular</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="newest">Newest</option>
+                            <option value="name">Name A-Z</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools Grid -->
+        <section class="section" style="padding-top: 20px;">
+            <div class="grid-3" id="toolsGrid">
+                <!-- Tools loaded by JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">Aiventure</div>
+                <p class="footer-desc">The most comprehensive directory of AI-powered travel tools.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Directory</h4>
+                    <ul>
+                        <li><a href="/pages/all-tools.html">All Tools</a></li>
+                        <li><a href="/pages/categories.html">Categories</a></li>
+                        <li><a href="/pages/new-additions.html">New Additions</a></li>
+                        <li><a href="/pages/top-rated.html">Top Rated</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/pages/blog.html">Blog</a></li>
+                        <li><a href="/pages/guides.html">Guides</a></li>
+                        <li><a href="/pages/newsletter.html">Newsletter</a></li>
+                        <li><a href="/pages/api.html">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/pages/about.html">About</a></li>
+                        <li><a href="/pages/contact.html">Contact</a></li>
+                        <li><a href="/pages/submit.html">Submit Tool</a></li>
+                        <li><a href="/pages/advertise.html">Advertise</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Aiventure. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const toolsGrid = document.getElementById('toolsGrid');
+        const toolCount = document.getElementById('toolCount');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const pricingFilter = document.getElementById('pricingFilter');
+        const sortFilter = document.getElementById('sortFilter');
+        
+        let allTools = []; // Cache tools
+
+        async function fetchTools() {
+            toolsGrid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1; padding: 40px;">Loading tools from Notion...</p>';
+            
+            try {
+                const params = new URLSearchParams();
+                if (categoryFilter.value) params.set('category', categoryFilter.value);
+                if (pricingFilter.value) params.set('pricing', pricingFilter.value);
+                if (sortFilter.value) params.set('sort', sortFilter.value);
+                if (searchInput.value) params.set('search', searchInput.value);
+                
+                const response = await fetch(`/api/tools?${params}`);
+                const result = await response.json();
+                
+                if (!result.success) throw new Error(result.error);
+                
+                allTools = result.data;
+                renderTools(allTools);
+            } catch (error) {
+                console.error('Error:', error);
+                toolsGrid.innerHTML = '<p style="text-align: center; color: #ef4444; grid-column: 1/-1; padding: 40px;">Failed to load tools. Check API connection.</p>';
+            }
+        }
+
+        function renderTools(tools) {
+            toolCount.textContent = tools.length;
+            
+            if (tools.length === 0) {
+                toolsGrid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1; padding: 40px;">No tools found matching your criteria.</p>';
+                return;
+            }
+            
+            toolsGrid.innerHTML = tools.map(tool => `
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon" style="background: var(--arctic); opacity: 0.15; position: relative;">
+                            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">${tool.icon || '🔧'}</span>
+                        </div>
+                        <div class="tool-info">
+                            <h3 class="tool-name">${tool.name}</h3>
+                            <span class="tool-category">${tool.category}</span>
+                        </div>
+                    </div>
+                    <p class="tool-desc">${tool.description || ''}</p>
+                    <div class="tool-features">
+                        ${(tool.features || []).slice(0, 3).map(f => `<span class="feature-tag">${f}</span>`).join('')}
+                    </div>
+                    <div class="tool-footer">
+                        <div class="tool-rating">
+                            <span class="rating-value">${tool.rating || 0}★</span>
+                            <span class="rating-reviews">(${(tool.reviews || 0).toLocaleString()})</span>
+                        </div>
+                        <span class="price-value">${tool.priceLabel || 'Free'}</span>
+                    </div>
+                    <a href="${tool.url || '#'}" target="_blank" class="visit-btn">Visit <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
+                </div>
+            `).join('');
+        }
+
+        // Debounce search
+        let searchTimeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(fetchTools, 300);
+        });
+        
+        categoryFilter.addEventListener('change', fetchTools);
+        pricingFilter.addEventListener('change', fetchTools);
+        sortFilter.addEventListener('change', fetchTools);
+
+        // Initial load
+        fetchTools();
+    </script>
+    
+    <style>
+        .tool-card { position: relative; }
+    </style>
+</body>
+</html>

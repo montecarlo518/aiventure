@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Additions — Aiventure</title>
+    <meta name="description" content="Discover the latest AI travel tools added to our directory. Stay up to date with new releases.">
+    <link rel="canonical" href="https://www.aiventure.me/pages/new-additions.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+    <div class="bg-decoration">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+        <div class="bg-grid"></div>
+    </div>
+
+    <nav>
+        <a href="/" class="logo">
+            <div class="logo-icon">✈</div>
+            Aiventure
+        </a>
+        <ul class="nav-links">
+            <li><a href="/#featured">Featured</a></li>
+            <li><a href="/pages/categories.html">Categories</a></li>
+            <li><a href="/pages/blog.html">Blog</a></li>
+            <li><a href="/pages/about.html">About</a></li>
+        </ul>
+        <a href="/pages/submit.html" class="submit-btn">Submit Tool</a>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <div class="breadcrumb">
+                <a href="/">Home</a>
+                <span>→</span>
+                <span class="current">New Additions</span>
+            </div>
+            <h1>🆕 New Additions</h1>
+            <p>The latest AI travel tools added to our directory. Check back regularly for new discoveries!</p>
+        </div>
+
+        <section class="section" style="padding-top: 0;">
+            <div style="background: linear-gradient(135deg, var(--teal) 0%, var(--arctic) 100%); border-radius: 20px; padding: 40px; color: white; margin-bottom: 40px;">
+                <h2 style="font-family: 'Fraunces', serif; font-size: 1.8rem; margin-bottom: 12px;">January 2026 Updates</h2>
+                <p style="opacity: 0.9;">We've added 4 exciting new AI travel tools this month! From road trip planners to group coordination apps, there's something for every type of traveler.</p>
+            </div>
+
+            <div class="grid-3" id="newToolsGrid"></div>
+        </section>
+
+        <!-- Newsletter CTA -->
+        <section class="newsletter-section">
+            <h2>Never Miss a New Tool</h2>
+            <p>Subscribe to get notified when we add new AI travel tools to our directory.</p>
+            <form class="newsletter-form" action="#" method="POST">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">Aiventure</div>
+                <p class="footer-desc">The most comprehensive directory of AI-powered travel tools.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Directory</h4>
+                    <ul>
+                        <li><a href="/pages/all-tools.html">All Tools</a></li>
+                        <li><a href="/pages/categories.html">Categories</a></li>
+                        <li><a href="/pages/new-additions.html">New Additions</a></li>
+                        <li><a href="/pages/top-rated.html">Top Rated</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/pages/blog.html">Blog</a></li>
+                        <li><a href="/pages/guides.html">Guides</a></li>
+                        <li><a href="/pages/newsletter.html">Newsletter</a></li>
+                        <li><a href="/pages/api.html">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="/pages/about.html">About</a></li>
+                        <li><a href="/pages/contact.html">Contact</a></li>
+                        <li><a href="/pages/submit.html">Submit Tool</a></li>
+                        <li><a href="/pages/advertise.html">Advertise</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Aiventure. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function loadNewTools() {
+            const grid = document.getElementById('newToolsGrid');
+            grid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1; padding: 40px;">Loading new tools...</p>';
+            
+            try {
+                const response = await fetch('/api/tools?sort=newest&limit=12');
+                const result = await response.json();
+                
+                if (!result.success) throw new Error(result.error);
+                
+                const tools = result.data;
+                
+                if (tools.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1; padding: 40px;">No new tools added recently.</p>';
+                    return;
+                }
+                
+                grid.innerHTML = tools.map(tool => `
+                    <div class="tool-card" style="position: relative;">
+                        <span style="position: absolute; top: 16px; right: 16px; background: var(--teal); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 600;">🆕 NEW</span>
+                        <div class="tool-header">
+                            <div class="tool-icon" style="background: var(--arctic); opacity: 0.15; position: relative;">
+                                <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">${tool.icon || '🔧'}</span>
+                            </div>
+                            <div class="tool-info">
+                                <h3 class="tool-name">${tool.name}</h3>
+                                <span class="tool-category">${tool.category}</span>
+                            </div>
+                        </div>
+                        <p class="tool-desc">${tool.description || ''}</p>
+                        <div class="tool-features">
+                            ${(tool.features || []).slice(0, 3).map(f => `<span class="feature-tag">${f}</span>`).join('')}
+                        </div>
+                        <div class="tool-footer">
+                            <div class="tool-rating">
+                                <span class="rating-value">${tool.rating || 0}★</span>
+                                <span class="rating-reviews">(${(tool.reviews || 0).toLocaleString()})</span>
+                            </div>
+                            <span class="price-value">${tool.priceLabel || 'Free'}</span>
+                        </div>
+                        <a href="${tool.url || '#'}" target="_blank" class="visit-btn">Visit <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error:', error);
+                grid.innerHTML = '<p style="text-align: center; color: #ef4444; grid-column: 1/-1; padding: 40px;">Failed to load tools.</p>';
+            }
+        }
+        
+        loadNewTools();
+    </script>
+</body>
+</html>
