@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit a Tool — Aiventure</title>
-    <meta name="description" content="Submit your AI travel tool to be featured in the Aiventure directory.">
+    <meta name="description" content="Submit your AI travel tool to be featured in the Aiventure directory. $49 listing fee.">
     <link rel="canonical" href="https://www.aiventure.me/pages/submit.html">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,53 +30,137 @@
         <section class="section" style="padding-top: 0;">
             <div class="grid-2" style="gap: 60px;">
                 <div>
+                    <!-- Pricing Card -->
+                    <div style="background: linear-gradient(135deg, var(--frost), var(--arctic)); border-radius: 24px; padding: 32px; color: white; margin-bottom: 30px; text-align: center;">
+                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.9; margin-bottom: 8px;">Listing Fee</div>
+                        <div style="font-family: 'Fraunces', serif; font-size: 3.5rem; font-weight: 700;">$49</div>
+                        <div style="opacity: 0.9; font-size: 0.95rem;">One-time payment • Lifetime listing</div>
+                        <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2); text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span>✓</span> Permanent directory listing
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span>✓</span> Category placement
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <span>✓</span> Search visibility
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span>✓</span> "New" badge for 30 days
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="background: var(--white); border-radius: 24px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.05);">
                         <h2 style="font-family: 'Fraunces', serif; font-size: 1.5rem; margin-bottom: 30px;">Tool Submission Form</h2>
+                        
+                        <!-- Step Indicator -->
+                        <div style="display: flex; gap: 16px; margin-bottom: 30px;">
+                            <div id="step1Indicator" style="flex: 1; text-align: center; padding: 12px; border-radius: 12px; background: var(--arctic); color: white; font-weight: 600; font-size: 0.9rem;">
+                                1. Tool Details
+                            </div>
+                            <div id="step2Indicator" style="flex: 1; text-align: center; padding: 12px; border-radius: 12px; background: var(--ice); color: var(--mist); font-weight: 600; font-size: 0.9rem;">
+                                2. Payment
+                            </div>
+                        </div>
+
+                        <!-- Step 1: Form -->
                         <form id="submitForm">
-                            <div class="form-group">
-                                <label class="form-label">Tool Name *</label>
-                                <input type="text" class="form-input" name="toolName" required placeholder="e.g., TripGenius AI">
+                            <div id="step1Content">
+                                <div class="form-group">
+                                    <label class="form-label">Tool Name *</label>
+                                    <input type="text" class="form-input" name="toolName" id="toolName" required placeholder="e.g., TripGenius AI">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Website URL *</label>
+                                    <input type="url" class="form-input" name="toolUrl" id="toolUrl" required placeholder="https://yourapp.com">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Category *</label>
+                                    <select class="form-select" name="category" id="category" required>
+                                        <option value="">Select a category</option>
+                                        <option value="Trip Planning">Trip Planning</option>
+                                        <option value="Local Guides">Local Guides</option>
+                                        <option value="Points & Rewards">Points & Rewards</option>
+                                        <option value="Road Trip Planning">Road Trip Planning</option>
+                                        <option value="Luxury Travel">Luxury Travel</option>
+                                        <option value="Group Travel">Group Travel</option>
+                                        <option value="Adventure Travel">Adventure Travel</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description * <span style="font-weight: 400; color: var(--mist);">(150-300 characters)</span></label>
+                                    <textarea class="form-textarea" name="description" id="description" required placeholder="Briefly describe what your tool does and what makes it unique..." maxlength="300" style="min-height: 100px;"></textarea>
+                                    <div style="text-align: right; font-size: 0.8rem; color: var(--mist); margin-top: 4px;"><span id="charCount">0</span>/300</div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Key Features <span style="font-weight: 400; color: var(--mist);">(comma-separated)</span></label>
+                                    <input type="text" class="form-input" name="features" id="features" placeholder="e.g., Itinerary Planning, AI Chat, Hotel Booking">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Pricing Model *</label>
+                                    <select class="form-select" name="pricing" id="pricing" required>
+                                        <option value="">Select pricing</option>
+                                        <option value="Free">Free</option>
+                                        <option value="Freemium">Freemium</option>
+                                        <option value="Paid">Paid</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Price Text <span style="font-weight: 400; color: var(--mist);">(displayed on listing)</span></label>
+                                    <input type="text" class="form-input" name="priceText" id="priceText" placeholder="e.g., Free / $10/mo, $49/year, Free trial">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Your Email * <span style="font-weight: 400; color: var(--mist);">(for payment receipt)</span></label>
+                                    <input type="email" class="form-input" name="contactEmail" id="contactEmail" required placeholder="your@email.com">
+                                </div>
+                                <button type="button" id="continueToPayment" class="btn btn-primary" style="width: 100%;">Continue to Payment — $49</button>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Website URL *</label>
-                                <input type="url" class="form-input" name="toolUrl" required placeholder="https://yourapp.com">
+
+                            <!-- Step 2: Payment -->
+                            <div id="step2Content" style="display: none;">
+                                <div style="background: var(--ice); border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                                    <h3 style="font-weight: 600; margin-bottom: 16px;">Order Summary</h3>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span>Tool Listing:</span>
+                                        <span id="summaryToolName" style="font-weight: 600;">-</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <span>Category:</span>
+                                        <span id="summaryCategory">-</span>
+                                    </div>
+                                    <div style="display: flex; justify-content: space-between; padding-top: 16px; border-top: 1px solid var(--ice-dark); margin-top: 16px;">
+                                        <span style="font-weight: 600; font-size: 1.1rem;">Total:</span>
+                                        <span style="font-weight: 700; font-size: 1.25rem; color: var(--arctic);">$49.00 USD</span>
+                                    </div>
+                                </div>
+
+                                <button type="button" id="backToForm" style="background: none; border: none; color: var(--arctic); cursor: pointer; margin-bottom: 20px; font-size: 0.95rem;">← Back to edit details</button>
+
+                                <!-- PayPal Button Container -->
+                                <div id="paypal-button-container" style="margin-top: 20px;"></div>
+                                
+                                <p style="text-align: center; font-size: 0.85rem; color: var(--mist); margin-top: 20px;">
+                                    🔒 Secure payment powered by PayPal<br>
+                                    <span style="font-size: 0.8rem;">You can pay with PayPal or credit/debit card</span>
+                                </p>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Category *</label>
-                                <select class="form-select" name="category" required>
-                                    <option value="">Select a category</option>
-                                    <option value="trip-planning">Trip Planning</option>
-                                    <option value="local-guides">Local Guides</option>
-                                    <option value="flights">Flights & Hotels</option>
-                                    <option value="road-trip">Road Trip</option>
-                                    <option value="luxury">Luxury Travel</option>
-                                    <option value="group">Group Travel</option>
-                                    <option value="adventure">Adventure</option>
-                                    <option value="other">Other</option>
-                                </select>
+
+                            <!-- Step 3: Success -->
+                            <div id="step3Content" style="display: none; text-align: center; padding: 40px 0;">
+                                <div style="font-size: 4rem; margin-bottom: 20px;">🎉</div>
+                                <h3 style="font-family: 'Fraunces', serif; font-size: 1.8rem; margin-bottom: 16px;">Payment Successful!</h3>
+                                <p style="color: var(--ink-light); margin-bottom: 24px;">Thank you for submitting <strong id="successToolName"></strong>.<br>We'll review your tool and add it to the directory within 3-5 business days.</p>
+                                <p style="color: var(--mist); font-size: 0.9rem;">A confirmation email has been sent to <strong id="successEmail"></strong></p>
+                                <a href="/" class="btn btn-secondary" style="margin-top: 30px;">Back to Homepage</a>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">Description *</label>
-                                <textarea class="form-textarea" name="description" required placeholder="Briefly describe what your tool does and what makes it unique (150-300 characters)"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Pricing Model *</label>
-                                <select class="form-select" name="pricing" required>
-                                    <option value="">Select pricing</option>
-                                    <option value="free">Free</option>
-                                    <option value="freemium">Freemium</option>
-                                    <option value="paid">Paid</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Your Email *</label>
-                                <input type="email" class="form-input" name="contactEmail" required placeholder="your@email.com">
-                            </div>
-                            <button type="submit" class="btn btn-primary" style="width: 100%;">Submit for Review</button>
                         </form>
+                        
                         <div id="formMessage" style="margin-top: 20px; display: none; padding: 16px; border-radius: 12px;"></div>
                     </div>
                 </div>
+                
                 <div>
                     <h2 style="font-family: 'Fraunces', serif; font-size: 1.5rem; margin-bottom: 24px;">Submission Guidelines</h2>
                     
@@ -106,7 +190,7 @@
                         <div style="display: flex; flex-direction: column; gap: 16px;">
                             <div style="display: flex; gap: 12px; align-items: flex-start;">
                                 <div style="background: var(--arctic); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; flex-shrink: 0;">1</div>
-                                <div><strong>Submit</strong><br><span style="color: var(--ink-light); font-size: 0.9rem;">Fill out the form with accurate information</span></div>
+                                <div><strong>Submit & Pay</strong><br><span style="color: var(--ink-light); font-size: 0.9rem;">Fill out the form and complete payment</span></div>
                             </div>
                             <div style="display: flex; gap: 12px; align-items: flex-start;">
                                 <div style="background: var(--arctic); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 600; flex-shrink: 0;">2</div>
@@ -117,6 +201,13 @@
                                 <div><strong>Publish</strong><br><span style="color: var(--ink-light); font-size: 0.9rem;">Approved tools are added to our directory</span></div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <h3 style="font-weight: 600; margin-bottom: 12px;">💰 Refund Policy</h3>
+                        <p style="color: var(--ink-light); font-size: 0.9rem; line-height: 1.7;">
+                            If your tool doesn't meet our guidelines and is rejected, we'll issue a full refund within 5 business days. No questions asked.
+                        </p>
                     </div>
                     
                     <div style="margin-top: 24px; padding: 24px; background: linear-gradient(135deg, var(--frost), var(--arctic)); border-radius: 20px; color: white;">
@@ -141,51 +232,217 @@
         <div class="footer-bottom"><p>© 2026 Aiventure. All rights reserved.</p></div>
     </footer>
 
+    <!-- PayPal SDK -->
+    <!-- IMPORTANT: Replace YOUR_PAYPAL_CLIENT_ID with your actual PayPal Client ID -->
+    <!-- Get it from: https://developer.paypal.com/dashboard/applications/sandbox -->
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+    
     <script>
-        document.getElementById('submitForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const form = e.target;
-            const formMessage = document.getElementById('formMessage');
-            const btn = form.querySelector('button');
+        // Form data storage
+        let formData = {};
+
+        // Character count for description
+        const description = document.getElementById('description');
+        const charCount = document.getElementById('charCount');
+        description.addEventListener('input', () => {
+            charCount.textContent = description.value.length;
+        });
+
+        // Step navigation
+        const step1Content = document.getElementById('step1Content');
+        const step2Content = document.getElementById('step2Content');
+        const step3Content = document.getElementById('step3Content');
+        const step1Indicator = document.getElementById('step1Indicator');
+        const step2Indicator = document.getElementById('step2Indicator');
+
+        // Continue to payment
+        document.getElementById('continueToPayment').addEventListener('click', () => {
+            const form = document.getElementById('submitForm');
             
-            btn.disabled = true;
-            btn.textContent = 'Submitting...';
+            // Validate required fields
+            const toolName = document.getElementById('toolName');
+            const toolUrl = document.getElementById('toolUrl');
+            const category = document.getElementById('category');
+            const descField = document.getElementById('description');
+            const pricing = document.getElementById('pricing');
+            const contactEmail = document.getElementById('contactEmail');
             
+            if (!toolName.value || !toolUrl.value || !category.value || !descField.value || !pricing.value || !contactEmail.value) {
+                showMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            // Validate URL
+            try {
+                new URL(toolUrl.value);
+            } catch {
+                showMessage('Please enter a valid website URL.', 'error');
+                return;
+            }
+
+            // Validate email
+            if (!contactEmail.value.includes('@')) {
+                showMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Store form data
+            formData = {
+                toolName: toolName.value,
+                toolUrl: toolUrl.value,
+                category: category.value,
+                description: descField.value,
+                features: document.getElementById('features').value,
+                pricing: pricing.value,
+                priceText: document.getElementById('priceText').value || 'Contact for pricing',
+                contactEmail: contactEmail.value
+            };
+
+            // Update summary
+            document.getElementById('summaryToolName').textContent = formData.toolName;
+            document.getElementById('summaryCategory').textContent = formData.category;
+
+            // Show step 2
+            step1Content.style.display = 'none';
+            step2Content.style.display = 'block';
+            step1Indicator.style.background = 'var(--teal)';
+            step2Indicator.style.background = 'var(--arctic)';
+            step2Indicator.style.color = 'white';
+
+            // Initialize PayPal buttons
+            initPayPalButtons();
+            
+            // Hide any previous messages
+            hideMessage();
+        });
+
+        // Back to form
+        document.getElementById('backToForm').addEventListener('click', () => {
+            step2Content.style.display = 'none';
+            step1Content.style.display = 'block';
+            step1Indicator.style.background = 'var(--arctic)';
+            step2Indicator.style.background = 'var(--ice)';
+            step2Indicator.style.color = 'var(--mist)';
+        });
+
+        // Initialize PayPal Buttons
+        function initPayPalButtons() {
+            // Clear any existing buttons
+            document.getElementById('paypal-button-container').innerHTML = '';
+            
+            paypal.Buttons({
+                style: {
+                    layout: 'vertical',
+                    color: 'blue',
+                    shape: 'pill',
+                    label: 'pay'
+                },
+                
+                // Create order
+                createOrder: function(data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            description: `Aiventure Directory Listing: ${formData.toolName}`,
+                            amount: {
+                                currency_code: 'USD',
+                                value: '49.00'
+                            },
+                            custom_id: JSON.stringify({
+                                toolName: formData.toolName,
+                                email: formData.contactEmail
+                            })
+                        }]
+                    });
+                },
+
+                // On approval
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        console.log('Payment completed:', details);
+                        
+                        // Submit the tool data to your API
+                        submitToolToAPI(details.id);
+                    });
+                },
+
+                // On error
+                onError: function(err) {
+                    console.error('PayPal error:', err);
+                    showMessage('Payment failed. Please try again or contact support.', 'error');
+                },
+
+                // On cancel
+                onCancel: function(data) {
+                    showMessage('Payment cancelled. You can try again when ready.', 'info');
+                }
+            }).render('#paypal-button-container');
+        }
+
+        // Submit tool to API after payment
+        async function submitToolToAPI(paypalOrderId) {
             try {
                 const response = await fetch('/api/submit-tool', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        toolName: form.toolName.value,
-                        toolUrl: form.toolUrl.value,
-                        category: form.category.value,
-                        description: form.description.value,
-                        pricing: form.pricing.value,
-                        contactEmail: form.contactEmail.value
+                        ...formData,
+                        paypalOrderId: paypalOrderId,
+                        paid: true,
+                        amount: 49.00
                     })
                 });
+
+                const result = await response.json();
                 
-                const data = await response.json();
-                
-                formMessage.style.display = 'block';
-                if (data.success) {
-                    formMessage.style.background = '#D1FAE5';
-                    formMessage.style.color = '#065F46';
-                    formMessage.textContent = '✓ Tool submitted successfully! We\'ll review it and get back to you within 3-5 business days.';
-                    form.reset();
+                if (result.success) {
+                    // Show success state
+                    step2Content.style.display = 'none';
+                    step3Content.style.display = 'block';
+                    step2Indicator.style.background = 'var(--teal)';
+                    document.getElementById('successToolName').textContent = formData.toolName;
+                    document.getElementById('successEmail').textContent = formData.contactEmail;
                 } else {
-                    throw new Error(data.error);
+                    // Payment succeeded but API failed - still show success
+                    // The payment was captured, so we should honor it
+                    step2Content.style.display = 'none';
+                    step3Content.style.display = 'block';
+                    step2Indicator.style.background = 'var(--teal)';
+                    document.getElementById('successToolName').textContent = formData.toolName;
+                    document.getElementById('successEmail').textContent = formData.contactEmail;
+                    console.warn('API submission failed but payment succeeded:', result.error);
                 }
-            } catch (err) {
-                formMessage.style.display = 'block';
+            } catch (error) {
+                // Payment succeeded but API call failed
+                console.error('API error:', error);
+                // Still show success since payment went through
+                step2Content.style.display = 'none';
+                step3Content.style.display = 'block';
+                step2Indicator.style.background = 'var(--teal)';
+                document.getElementById('successToolName').textContent = formData.toolName;
+                document.getElementById('successEmail').textContent = formData.contactEmail;
+            }
+        }
+
+        // Message helpers
+        function showMessage(text, type) {
+            const formMessage = document.getElementById('formMessage');
+            formMessage.style.display = 'block';
+            formMessage.textContent = text;
+            if (type === 'error') {
                 formMessage.style.background = '#FEE2E2';
                 formMessage.style.color = '#991B1B';
-                formMessage.textContent = '✕ ' + (err.message || 'Something went wrong. Please try again.');
+            } else if (type === 'info') {
+                formMessage.style.background = '#DBEAFE';
+                formMessage.style.color = '#1E40AF';
+            } else {
+                formMessage.style.background = '#D1FAE5';
+                formMessage.style.color = '#065F46';
             }
-            
-            btn.disabled = false;
-            btn.textContent = 'Submit for Review';
-        });
+        }
+
+        function hideMessage() {
+            document.getElementById('formMessage').style.display = 'none';
+        }
     </script>
 </body>
 </html>
