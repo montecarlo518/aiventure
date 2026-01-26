@@ -244,6 +244,16 @@ function transformNotionBlogPost(page) {
   const slug = props.Slug?.rich_text?.[0]?.plain_text || 
                title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   
+  // Get cover image URL
+  let coverImage = null;
+  if (page.cover) {
+    if (page.cover.type === 'external') {
+      coverImage = page.cover.external.url;
+    } else if (page.cover.type === 'file') {
+      coverImage = page.cover.file.url;
+    }
+  }
+  
   return {
     id: page.id,
     title,
@@ -255,8 +265,7 @@ function transformNotionBlogPost(page) {
     publishedAt: props['Published Date']?.date?.start || page.created_time,
     readTime: props['Read Time']?.number || 5,
     featured: props.Featured?.checkbox || false,
-    icon: props.Icon?.rich_text?.[0]?.plain_text || '📝',
-    coverColor: props['Cover Color']?.rich_text?.[0]?.plain_text || 'var(--arctic), var(--frost)',
+    coverImage: coverImage,
     url: `/blog/${slug}`,
   };
 }
@@ -433,6 +442,10 @@ function escapeHtml(text) {
 // GENERATE BLOG POST HTML PAGE
 // ============================================
 function generateBlogPostPage(post, content) {
+  const headerStyle = post.coverImage 
+    ? `background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${post.coverImage}'); background-size: cover; background-position: center;`
+    : `background: linear-gradient(135deg, var(--slate), var(--ink));`;
+    
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -440,6 +453,7 @@ function generateBlogPostPage(post, content) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${escapeHtml(post.title)} — Aiventure Blog</title>
     <meta name="description" content="${escapeHtml(post.excerpt)}">
+    <meta property="og:image" content="${post.coverImage || ''}">
     <link rel="canonical" href="https://aiventure.pages.dev/blog/${post.slug}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -464,9 +478,9 @@ function generateBlogPostPage(post, content) {
         .blog-post-content .callout-icon { font-size: 1.5em; }
         .blog-post-content a { color: var(--arctic); text-decoration: underline; }
         .blog-post-content hr { border: none; border-top: 1px solid var(--ice); margin: 2em 0; }
-        .blog-header { text-align: center; padding: 60px 20px; background: linear-gradient(135deg, ${post.coverColor}); border-radius: 30px; color: white; margin-bottom: 40px; }
-        .blog-header h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 20px; color: white; }
-        .blog-meta { display: flex; justify-content: center; gap: 20px; opacity: 0.9; flex-wrap: wrap; }
+        .blog-header { text-align: center; padding: 80px 20px; border-radius: 30px; color: white; margin-bottom: 40px; min-height: 300px; display: flex; flex-direction: column; justify-content: center; }
+        .blog-header h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 20px; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .blog-meta { display: flex; justify-content: center; gap: 20px; opacity: 0.9; flex-wrap: wrap; text-shadow: 0 1px 5px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -484,8 +498,7 @@ function generateBlogPostPage(post, content) {
         </div>
 
         <section class="section" style="padding-top: 20px;">
-            <div class="blog-header">
-                <span style="font-size: 4rem; display: block; margin-bottom: 20px;">${post.icon}</span>
+            <div class="blog-header" style="${headerStyle}">
                 <h1>${escapeHtml(post.title)}</h1>
                 <div class="blog-meta">
                     <span>${post.author}</span>
