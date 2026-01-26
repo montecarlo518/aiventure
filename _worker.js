@@ -6,7 +6,8 @@
 // ============================================
 // NOTION_API_KEY - Get from https://www.notion.so/my-integrations
 // TOOLS_DATABASE_ID - Your AI Travel Tools Directory
-// SUBMISSIONS_DATABASE_ID - Database for pending submissions
+// SUBMISSIONS_DATABASE_ID - Database for paid tool submissions
+// ADVERTISING_DATABASE_ID - Database for advertising inquiries
 // PAYPAL_CLIENT_ID - Your PayPal Client ID
 // PAYPAL_CLIENT_SECRET - Your PayPal Client Secret
 // PAYPAL_MODE - 'sandbox' or 'live'
@@ -172,6 +173,54 @@ async function createSubmissionInNotion(formData, paymentInfo, env) {
       };
     }
   }
+  
+  const result = await notionRequest('/pages', apiKey, 'POST', {
+    parent: { database_id: dbId },
+    properties
+  });
+  
+  if (result.object === 'error') {
+    throw new Error(result.message || 'Failed to create Notion page');
+  }
+  
+  return { success: true, notionPageId: result.id };
+}
+
+// ============================================
+// CREATE ADVERTISING INQUIRY IN NOTION
+// ============================================
+async function createAdvertisingInquiryInNotion(formData, env) {
+  const apiKey = env.NOTION_API_KEY;
+  const dbId = env.ADVERTISING_DATABASE_ID;
+  
+  if (!apiKey || !dbId) {
+    console.log('Notion not configured for advertising inquiries, skipping...');
+    return { success: true, notionConfigured: false };
+  }
+  
+  const properties = {
+    'Name': {
+      title: [{ text: { content: formData.companyName } }]
+    },
+    'Contact Email': {
+      email: formData.contactEmail
+    },
+    'Website URL': {
+      url: formData.websiteUrl || null
+    },
+    'Package': {
+      select: { name: formData.package || 'Not specified' }
+    },
+    'Budget': {
+      rich_text: [{ text: { content: formData.budget || '' } }]
+    },
+    'Message': {
+      rich_text: [{ text: { content: formData.message || '' } }]
+    },
+    'Status': {
+      select: { name: 'New' }
+    },
+  };
   
   const result = await notionRequest('/pages', apiKey, 'POST', {
     parent: { database_id: dbId },
@@ -511,12 +560,21 @@ export default {
             status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders }
           });
         }
-        return new Response(JSON.stringify({ success: true, message: 'Inquiry received!' }), {
+        
+        // Save to Notion
+        const notionResult = await createAdvertisingInquiryInNotion(body, env);
+        
+        return new Response(JSON.stringify({ 
+          success: true, 
+          message: 'Inquiry received! We\'ll get back to you within 24-48 hours.',
+          notionPageId: notionResult.notionPageId
+        }), {
           headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
       } catch (e) {
-        return new Response(JSON.stringify({ success: false, error: 'Invalid request' }), {
-          status: 400, headers: { 'Content-Type': 'application/json', ...corsHeaders }
+        console.error('Advertise error:', e);
+        return new Response(JSON.stringify({ success: false, error: 'Failed to submit inquiry. Please try again.' }), {
+          status: 500, headers: { 'Content-Type': 'application/json', ...corsHeaders }
         });
       }
     }
