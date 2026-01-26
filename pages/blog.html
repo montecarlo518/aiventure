@@ -10,6 +10,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/assets/styles.css">
+    <style>
+        .blog-card-img { 
+            height: 200px; 
+            background-size: cover; 
+            background-position: center; 
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+        .blog-card-img .blog-date-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+        .featured-img {
+            background-size: cover;
+            background-position: center;
+            min-height: 400px;
+        }
+    </style>
 </head>
 <body>
     <div class="bg-decoration"><div class="bg-circle bg-circle-1"></div><div class="bg-circle bg-circle-2"></div><div class="bg-grid"></div></div>
@@ -29,9 +54,7 @@
 
         <!-- Featured Post -->
         <section class="section" style="padding-top: 0;">
-            <div id="featuredPost" style="display: none;">
-                <!-- Populated by JavaScript -->
-            </div>
+            <div id="featuredPost" style="display: none;"></div>
             <div id="featuredLoading" style="background: linear-gradient(135deg, var(--slate), var(--ink)); border-radius: 30px; min-height: 400px; display: flex; align-items: center; justify-content: center;">
                 <p style="color: rgba(255,255,255,0.6);">Loading featured post...</p>
             </div>
@@ -40,9 +63,7 @@
         <!-- Blog Grid -->
         <section class="section">
             <h2 class="section-title"><span class="small">Latest Posts</span>Recent Articles</h2>
-            <div id="blogGrid" class="grid-3">
-                <!-- Populated by JavaScript -->
-            </div>
+            <div id="blogGrid" class="grid-3"></div>
             <div id="blogLoading" style="text-align: center; padding: 60px;">
                 <p style="color: var(--mist);">Loading articles...</p>
             </div>
@@ -76,7 +97,6 @@
     </footer>
 
     <script>
-        // Fetch and display blog posts
         async function loadBlogPosts() {
             try {
                 const response = await fetch('/api/blog');
@@ -91,18 +111,14 @@
                 }
                 
                 const posts = result.data;
-                
-                // Find featured post
                 const featuredPost = posts.find(p => p.featured) || posts[0];
                 const otherPosts = posts.filter(p => p.id !== featuredPost.id);
                 
-                // Render featured post
                 if (featuredPost) {
                     document.getElementById('featuredPost').innerHTML = renderFeaturedPost(featuredPost);
                     document.getElementById('featuredPost').style.display = 'block';
                 }
                 
-                // Render other posts
                 if (otherPosts.length > 0) {
                     document.getElementById('blogGrid').innerHTML = otherPosts.map(renderBlogCard).join('');
                 }
@@ -116,20 +132,23 @@
         
         function renderFeaturedPost(post) {
             const date = new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            const bgStyle = post.coverImage 
+                ? `background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('${post.coverImage}'); background-size: cover; background-position: center;`
+                : `background: linear-gradient(135deg, var(--slate), var(--ink));`;
+            
             return `
                 <a href="${post.url}" style="text-decoration: none; display: block;">
-                    <div style="background: linear-gradient(135deg, var(--slate), var(--ink)); border-radius: 30px; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; min-height: 400px;">
-                        <div style="padding: 50px; display: flex; flex-direction: column; justify-content: center;">
-                            <span style="background: var(--arctic); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; width: fit-content; margin-bottom: 20px;">FEATURED</span>
-                            <h2 style="font-family: 'Fraunces', serif; font-size: 2rem; color: white; margin-bottom: 16px; line-height: 1.3;">${escapeHtml(post.title)}</h2>
-                            <p style="color: rgba(255,255,255,0.7); margin-bottom: 24px; line-height: 1.7;">${escapeHtml(post.excerpt)}</p>
-                            <div style="display: flex; align-items: center; gap: 20px;">
-                                <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">${date}</span>
-                                <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">•</span>
-                                <span style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">${post.readTime} min read</span>
+                    <div style="${bgStyle} border-radius: 30px; overflow: hidden; min-height: 400px; display: flex; align-items: center; justify-content: center; padding: 60px;">
+                        <div style="text-align: center; max-width: 700px;">
+                            <span style="background: var(--arctic); color: white; padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; font-weight: 600; display: inline-block; margin-bottom: 20px;">FEATURED</span>
+                            <h2 style="font-family: 'Fraunces', serif; font-size: 2.5rem; color: white; margin-bottom: 16px; line-height: 1.3; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">${escapeHtml(post.title)}</h2>
+                            <p style="color: rgba(255,255,255,0.9); margin-bottom: 24px; line-height: 1.7; font-size: 1.1rem; text-shadow: 0 1px 5px rgba(0,0,0,0.3);">${escapeHtml(post.excerpt)}</p>
+                            <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                                <span style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">${date}</span>
+                                <span style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">•</span>
+                                <span style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">${post.readTime} min read</span>
                             </div>
                         </div>
-                        <div style="background: linear-gradient(135deg, ${post.coverColor}); display: flex; align-items: center; justify-content: center; font-size: 8rem;">${post.icon}</div>
                     </div>
                 </a>
             `;
@@ -138,16 +157,19 @@
         function renderBlogCard(post) {
             const date = new Date(post.publishedAt);
             const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const bgStyle = post.coverImage 
+                ? `background-image: url('${post.coverImage}');`
+                : `background: linear-gradient(135deg, var(--arctic), var(--frost));`;
+            
             return `
-                <a href="${post.url}" class="blog-card">
-                    <div class="blog-image" style="background: linear-gradient(135deg, ${post.coverColor});">
+                <a href="${post.url}" class="blog-card" style="display: block; text-decoration: none;">
+                    <div class="blog-card-img" style="${bgStyle}">
                         <span class="blog-date-badge">${monthDay}</span>
-                        ${post.icon}
                     </div>
-                    <div class="blog-content">
+                    <div class="blog-content" style="padding: 24px;">
                         <div class="blog-tags"><span class="tag">${escapeHtml(post.category)}</span></div>
-                        <h3 class="blog-title">${escapeHtml(post.title)}</h3>
-                        <p class="blog-excerpt">${escapeHtml(post.excerpt)}</p>
+                        <h3 class="blog-title" style="font-family: 'Fraunces', serif; font-size: 1.2rem; margin: 12px 0 8px; color: var(--ink);">${escapeHtml(post.title)}</h3>
+                        <p class="blog-excerpt" style="color: var(--ink-light); font-size: 0.9rem; line-height: 1.6;">${escapeHtml(post.excerpt)}</p>
                     </div>
                 </a>
             `;
@@ -159,7 +181,6 @@
             return div.innerHTML;
         }
         
-        // Newsletter form
         document.getElementById('newsletterForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('newsletterEmail').value;
@@ -189,7 +210,6 @@
             }
         });
         
-        // Load posts on page load
         loadBlogPosts();
     </script>
 </body>
