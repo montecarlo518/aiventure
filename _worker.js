@@ -281,7 +281,8 @@ async function fetchBlogPosts(env, filters = {}) {
     throw new Error('Blog database not configured');
   }
   
-  const queryBody = { page_size: filters.limit || 50 };
+  const limit = filters.limit ? parseInt(filters.limit, 10) : 50;
+  const queryBody = { page_size: Math.min(limit, 100) };
   
   // Only show published posts
   const conditions = [
