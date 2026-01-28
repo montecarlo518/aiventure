@@ -52,7 +52,7 @@
                 Discover the Best <span style="color: var(--arctic); font-style: italic; font-weight: 500;">Travel AI</span> Agents
             </h1>
             <p style="font-size: 1.25rem; color: var(--ink-light); max-width: 600px; margin: 0 auto 40px;">
-                Your curated directory of AI-powered travel tools. Find the perfect AI travel agent for trip planning, booking and exploration.
+                Your curated directory of AI-powered travel tools. Find the perfect assistant for trip planning, booking and exploration.
             </p>
             <div style="display: flex; justify-content: center; gap: 60px;">
                 <div style="text-align: center;">
@@ -117,52 +117,17 @@
             </div>
         </section>
 
-        <!-- Latest Guides Preview -->
+        <!-- Latest Blog Posts -->
         <section class="section">
             <h2 class="section-title">
-                <span class="small">Learn More</span>
-                Latest Guides
+                <span class="small">From the Blog</span>
+                Latest Posts
             </h2>
-            <div class="grid-3">
-                <a href="/guides/how-to-use-ai-trip-planner.html" class="guide-card">
-                    <div class="guide-image">🎯</div>
-                    <div class="guide-content">
-                        <div class="guide-category">Getting Started</div>
-                        <h3 class="guide-title">How to Use AI Trip Planners Effectively</h3>
-                        <p class="guide-excerpt">Learn the best practices for getting the most out of AI travel planning tools.</p>
-                        <div class="guide-meta">
-                            <span>8 min read</span>
-                            <span>Jan 2026</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="/guides/budget-travel-with-ai.html" class="guide-card">
-                    <div class="guide-image" style="background: linear-gradient(135deg, var(--teal), var(--teal-light));">💰</div>
-                    <div class="guide-content">
-                        <div class="guide-category">Budget Travel</div>
-                        <h3 class="guide-title">Save Money on Travel Using AI Tools</h3>
-                        <p class="guide-excerpt">Discover how AI can help you find the best deals and optimize your travel budget.</p>
-                        <div class="guide-meta">
-                            <span>6 min read</span>
-                            <span>Jan 2026</span>
-                        </div>
-                    </div>
-                </a>
-                <a href="/guides/ai-vs-traditional-travel-agents.html" class="guide-card">
-                    <div class="guide-image" style="background: linear-gradient(135deg, var(--frost), var(--arctic));">🤖</div>
-                    <div class="guide-content">
-                        <div class="guide-category">Comparison</div>
-                        <h3 class="guide-title">AI vs Traditional Travel Agents</h3>
-                        <p class="guide-excerpt">A comprehensive comparison of AI travel tools and human travel agents.</p>
-                        <div class="guide-meta">
-                            <span>10 min read</span>
-                            <span>Dec 2025</span>
-                        </div>
-                    </div>
-                </a>
+            <div class="grid-3" id="blogGrid">
+                <p style="text-align: center; color: var(--mist); grid-column: 1/-1;">Loading posts...</p>
             </div>
             <div style="text-align: center; margin-top: 30px;">
-                <a href="/pages/guides.html" class="btn btn-secondary">All Guides →</a>
+                <a href="/pages/blog.html" class="btn btn-secondary">All Posts →</a>
             </div>
         </section>
 
@@ -182,7 +147,7 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <div class="footer-logo">Aiventure</div>
-                <p class="footer-desc">The most comprehensive directory of AI-powered travel tools. Discover, compare, and find the perfect AI assistant for your next adventure.</p>
+                <p class="footer-desc">The most comprehensive directory of AI-powered travel tools. Discover, compare and find the perfect AI assistant for your next adventure.</p>
             </div>
             <div class="footer-links">
                 <div class="footer-column">
@@ -274,6 +239,55 @@
         }
         
         loadFeaturedTools();
+        
+        // Fetch latest blog posts from API
+        async function loadBlogPosts() {
+            const blogGrid = document.getElementById('blogGrid');
+            
+            try {
+                const response = await fetch('/api/blog?limit=3');
+                const result = await response.json();
+                
+                if (!result.success || !result.data.length) {
+                    blogGrid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1;">No posts yet. Check back soon!</p>';
+                    return;
+                }
+                
+                const posts = result.data.slice(0, 3);
+                
+                blogGrid.innerHTML = posts.map(post => {
+                    const date = new Date(post.publishedAt);
+                    const monthDay = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const bgStyle = post.coverImage 
+                        ? `background-image: url('${post.coverImage}'); background-size: cover; background-position: center;`
+                        : `background: linear-gradient(135deg, var(--arctic), var(--frost));`;
+                    
+                    return `
+                        <a href="${post.url}" class="blog-card" style="display: block; text-decoration: none; background: var(--white); border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s;">
+                            <div style="${bgStyle} height: 180px; position: relative;">
+                                <span style="position: absolute; top: 12px; right: 12px; background: white; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; color: var(--ink);">${monthDay}</span>
+                            </div>
+                            <div style="padding: 24px;">
+                                <span style="background: var(--ice); color: var(--arctic); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;">${post.category}</span>
+                                <h3 style="font-family: 'Fraunces', serif; font-size: 1.15rem; margin: 12px 0 8px; color: var(--ink); line-height: 1.4;">${escapeHtml(post.title)}</h3>
+                                <p style="color: var(--ink-light); font-size: 0.9rem; line-height: 1.6;">${escapeHtml(post.excerpt)}</p>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Error loading blog posts:', error);
+                blogGrid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1;">Failed to load posts.</p>';
+            }
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        loadBlogPosts();
     </script>
     
     <style>
