@@ -55,13 +55,13 @@
                         <label class="form-label">Category</label>
                         <select class="form-select" id="categoryFilter">
                             <option value="">All Categories</option>
-                            <option value="trip-planning">Trip Planning</option>
-                            <option value="local-guides">Local Guides</option>
-                            <option value="flights">Flights & Hotels</option>
-                            <option value="road-trip">Road Trip</option>
-                            <option value="luxury">Luxury Travel</option>
-                            <option value="group">Group Travel</option>
-                            <option value="adventure">Adventure</option>
+                            <option value="Trip Planning">Trip Planning</option>
+                            <option value="Local Guides">Local Guides</option>
+                            <option value="Flights & Hotels">Flights & Hotels</option>
+                            <option value="Road Trip">Road Trip</option>
+                            <option value="Luxury Travel">Luxury Travel</option>
+                            <option value="Group Travel">Group Travel</option>
+                            <option value="Adventure">Adventure</option>
                         </select>
                     </div>
                     <div style="flex: 1; min-width: 180px;">
@@ -146,7 +146,7 @@
         let allTools = []; // Cache tools
 
         async function fetchTools() {
-            toolsGrid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1; padding: 40px;">Loading tools from Notion...</p>';
+            toolsGrid.innerHTML = '<p style="text-align: center; color: var(--mist); grid-column: 1/-1; padding: 40px;">Loading tools...</p>';
             
             try {
                 const params = new URLSearchParams();
