@@ -1,5 +1,4 @@
 # Aiventure - Cloudflare Pages Headers
-# Documentation: https://developers.cloudflare.com/pages/configuration/headers/
 
 # Global headers for all pages
 /*
@@ -8,7 +7,7 @@
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(self "https://www.paypal.com"), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://www.paypal.com https://*.paypal.com https://*.paypalobjects.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.paypal.com https://*.paypalobjects.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://*.paypal.com https://*.paypalobjects.com; connect-src 'self' https://api.aiventure.me https://*.paypal.com https://*.paypalobjects.com;
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://www.paypal.com https://*.paypal.com https://*.paypalobjects.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.paypal.com https://*.paypalobjects.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; frame-src https://*.paypal.com https://*.paypalobjects.com; connect-src 'self' https://api.aiventure.me https://*.paypal.com https://*.paypalobjects.com https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://analytics.google.com;
 
 # HTML pages - shorter cache, revalidate
 /*.html
@@ -18,7 +17,7 @@
 /
   Cache-Control: public, max-age=1800, must-revalidate
 
-# CSS files - longer cache with hash in filename
+# CSS files - longer cache
 /assets/*.css
   Cache-Control: public, max-age=31536000, immutable
 
@@ -51,7 +50,7 @@
   Cache-Control: public, max-age=31536000, immutable
   Access-Control-Allow-Origin: *
 
-# API endpoints (handled by worker, but define headers)
+# API endpoints
 /api/*
   Cache-Control: no-store
   Access-Control-Allow-Origin: *
@@ -66,12 +65,3 @@
 /robots.txt
   Cache-Control: public, max-age=86400
   Content-Type: text/plain
-
-# RSS feed
-/feed.xml
-  Cache-Control: public, max-age=3600
-  Content-Type: application/rss+xml
-
-# Guides - medium cache
-/guides/*
-  Cache-Control: public, max-age=7200, must-revalidate
